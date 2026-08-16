@@ -21,12 +21,12 @@ def seed(clean_db):
             "INSERT INTO chunks(source_id, namespace, path, start_line, end_line, text, "
             "embedding, updated_at, metadata) VALUES(?,?,?,?,?,?,?,?,?)",
             (1, "brand", "p", 0, 1,
-             f"林下有品牌云茯苓祛湿茶推广方案讨论第{i}轮", None, t, "{}"))
+             f"brandxteaprod推广方案讨论第{i}轮", None, t, "{}"))
     for i in range(3):
         conn.execute(
             "INSERT INTO extracts(namespace, type, text, short, importance, entities, "
             "tags, timestamp, source_id, created_at) VALUES(?,?,?,?,?,?,?,?,?,?)",
-            ("brand", "decision", f"决策{i}", "短版", 4, '["林下有"]', '[]',
+            ("brand", "decision", f"决策{i}", "短版", 4, '["acme"]', '[]',
              "2026-08-09", 1, t))
     conn.commit()
     conn.close()

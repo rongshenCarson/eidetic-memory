@@ -11,12 +11,12 @@ def setup_function():
 
 
 def test_add_and_query_both_directions():
-    kg_add("林下有", "首款产品", "云茯苓祛湿茶", namespace="brand")
-    out = kg_query("林下有", namespace="brand", direction="outgoing")
-    assert out["count"] == 1 and out["relations"][0]["object"] == "云茯苓祛湿茶"
-    inc = kg_query("云茯苓祛湿茶", namespace="brand", direction="incoming")
-    assert inc["count"] == 1 and inc["relations"][0]["object"] == "林下有"
-    both = kg_query("云茯苓祛湿茶", namespace="brand", direction="both")
+    kg_add("acme", "首款产品", "teaprod", namespace="brand")
+    out = kg_query("acme", namespace="brand", direction="outgoing")
+    assert out["count"] == 1 and out["relations"][0]["object"] == "teaprod"
+    inc = kg_query("teaprod", namespace="brand", direction="incoming")
+    assert inc["count"] == 1 and inc["relations"][0]["object"] == "acme"
+    both = kg_query("teaprod", namespace="brand", direction="both")
     assert both["count"] == 1
 
 
@@ -28,14 +28,14 @@ def test_idempotent():
 
 
 def test_conflict_correction():
-    kg_add("林下有", "首款产品", "云茯苓祛湿茶", namespace="brand")
-    kg_add("林下有", "首款产品", "新品A", namespace="brand")
+    kg_add("acme", "首款产品", "teaprod", namespace="brand")
+    kg_add("acme", "首款产品", "新品A", namespace="brand")
     s = kg_stats(namespace="brand")
     assert s["triples"] == 2 and s["expired"] == 1
     # 旧事实被标记过时
-    out = kg_query("林下有", namespace="brand", direction="outgoing")
+    out = kg_query("acme", namespace="brand", direction="outgoing")
     vt = {r["object"]: r["valid_to"] for r in out["relations"]}
-    assert vt["云茯苓祛湿茶"] is not None  # 已过时
+    assert vt["teaprod"] is not None  # 已过时
     assert vt["新品A"] is None  # 当前有效
 
 
@@ -60,10 +60,10 @@ def test_stats_and_timeline():
 
 def test_entity_normalization_short_to_long():
     """短名归入长名（Mem0 entity linking 借鉴 ①）"""
-    kg_add("林下有品牌", "定位", "轻养生药食同源", namespace="brand")
-    r = kg_add("林下有", "首款产品", "云茯苓祛湿茶", namespace="brand")
-    assert r["subject"] == "林下有品牌"
-    q = kg_query("林下有", namespace="brand", direction="outgoing")
+    kg_add("teaprod-extra", "定位", "轻养生药食同源", namespace="brand")
+    r = kg_add("teaprod", "首款产品", "配方B", namespace="brand")
+    assert r["subject"] == "teaprod-extra"
+    q = kg_query("teaprod", namespace="brand", direction="outgoing")
     assert q["count"] == 2  # 别名查询命中全部
 
 

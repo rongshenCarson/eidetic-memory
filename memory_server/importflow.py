@@ -6,7 +6,7 @@ memory-server 旧记忆一键导入 + 自动增强管线（F8，2026-08-11）
 选择旧记忆路径 → 自动识别格式 → 导入记忆库 → 自动跑完整增强管线。
 
 流程：
-  1. detect_old_memory()   探测常见旧系统痕迹（OpenClaw/Basic Memory/MemPalace/Obsidian）
+  1. detect_old_memory()   探测常见旧记忆目录（OpenClaw / Basic Memory / Obsidian 等）
   2. plan_import(paths)    分析路径类型，生成导入计划（zip bundle / 目录子结构 / 普通目录）
   3. run_import()          执行导入（幂等，hash 去重，不碰源文件）
   4. post_import_enhance() 自动增强：分类 → 规则实体 KG → AAAK 压缩 → 语义去重 → 向量索引
@@ -45,7 +45,7 @@ KNOWN_SUBDIRS = {
     "episodic记忆": "episodic记忆",
     "场景画像": "场景画像",
     "日常对话": "日常对话",
-    "林下有品牌": "林下有品牌",
+    "acme品牌": "acme品牌",
     "系统配置": "系统配置",
     "reflections": "reflections",
     "reports": "reports",
@@ -61,7 +61,6 @@ DETECT_CANDIDATES = [
     os.path.expanduser("~/.openclaw/workspace/memory/reflections"),
     os.path.expanduser("~/.openclaw/workspace/.learnings"),
     os.path.expanduser("~/.openclaw/workspace/memory"),
-    os.path.expanduser("~/.mempalace/palace"),
     os.path.expanduser("~/memories.zip"),
     os.path.expanduser("~/.basic-memory"),
     os.path.expanduser("~/Documents/Obsidian"),

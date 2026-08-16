@@ -13,9 +13,9 @@ class MockExtractor:
         return {
             "facts": [
                 {"type": "decision", "content": "决定采用双轨方案", "short": "双轨方案",
-                 "importance": 4, "entities": ["林下有"], "timestamp": "2026-08-09"},
-                {"type": "fact", "content": "云茯苓祛湿茶是首款产品", "short": "首款产品",
-                 "importance": 3, "entities": ["林下有", "云茯苓祛湿茶"], "timestamp": "2026-08-09"},
+                 "importance": 4, "entities": ["acme"], "timestamp": "2026-08-09"},
+                {"type": "fact", "content": "teaprod是首款产品", "short": "首款产品",
+                 "importance": 3, "entities": ["acme", "teaprod"], "timestamp": "2026-08-09"},
             ],
             "episodics": [
                 {"scene": "推广方案讨论", "summary": "讨论了双轨推广方案并定稿",
@@ -39,7 +39,7 @@ def test_extract_store_to_kg():
 
     # KG 实体关联断言（实体 → 涉及 → 内容）
     from memory_server.kg import kg_query
-    out = kg_query("林下有", namespace="brand", direction="outgoing")
+    out = kg_query("acme", namespace="brand", direction="outgoing")
     assert out["count"] >= 1
 
 

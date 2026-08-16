@@ -3,7 +3,7 @@
 memory-server 自动备份（#37，2026-08-10 补）
 =============================================
 定期备份 memory.db + raw 清单到 backups/，保留最近 N 份。
-对齐旧系统 backup_palace + prune_palace_backups。
+备份保留策略（最近 N 份自动轮转）。
 
 用法:
   eidetic backup [--keep 7]          # 手动备份

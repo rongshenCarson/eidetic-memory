@@ -24,7 +24,7 @@ Any MCP-compatible agent (OpenClaw / Hermes / Claude Code, etc.) can share the s
 ### Step 1: Install the software (pick one of three)
 
 **Option A: Double-click installer (macOS)**
-Download [eidetic-memory-0.1.0-macos.pkg](https://github.com/rongshenCarson/eidetic-memory/releases/latest/download/eidetic-memory-0.1.0-macos.pkg) → double-click → installs to `/usr/local/share/eidetic-memory`
+Download [eidetic-memory-0.1.1-macos.pkg](https://github.com/rongshenCarson/eidetic-memory/releases/latest/download/eidetic-memory-0.1.1-macos.pkg) → double-click → installs to `/usr/local/share/eidetic-memory`
 > ⚠️ The installer is not yet signed/notarized; macOS may warn "cannot verify developer" → right-click the installer → select "Open". (Will be signed for the official release.)
 > Uninstall/upgrade: see [UPGRADING.md](UPGRADING.md)
 
@@ -63,7 +63,7 @@ cd <install-dir>/eidetic-memory
 ### macOS / Linux
 ```bash
 # 1. Install (after install, .venv/bin/eidetic is equivalent to python -m memory_server; the latter is used below)
-git clone https://github.com/rongshenCarson/eidetic-memory && cd memory-server
+git clone https://github.com/rongshenCarson/eidetic-memory && cd eidetic-memory
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/pip install -e . --no-deps   # register package (required for MCP from any cwd)
 .venv/bin/python -m memory_server init     # install wizard (probe/language/config/models/self-check)
@@ -84,7 +84,7 @@ MEMORY_AGENT_INGEST=1 .venv/bin/python -m memory_server serve
 ### Windows
 ```bash
 # 1. Install
-git clone https://github.com/rongshenCarson/eidetic-memory && cd memory-server
+git clone https://github.com/rongshenCarson/eidetic-memory && cd eidetic-memory
 python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
 .venv\Scripts\pip install -e . --no-deps   # register package (required for MCP from any cwd)
 .venv\Scripts\python -m memory_server init
@@ -121,7 +121,7 @@ python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
 | `compress` | AAAK structured compression |
 | `backup create/list/restore` | Backup / restore |
 | `export-markdown` | Export human-readable Markdown |
-| `doctor` | 22-item integrity audit |
+| `doctor` | 23-item integrity audit |
 | `install-service` | Daemon service (launchd/systemd/NSSM) |
 | `openclaw-setup` | Connect OpenClaw (MCP + auto injection) |
 | `maintain` | Maintenance (conflicts/feedback/curated/reflect/learnings) |
@@ -136,8 +136,8 @@ Eidetic (single process, single database)
   raw/ raw layer (single source of truth: conversation JSONL + documents)
     ↓ ingest (agent_ingest 5min, row-level idempotent)
   memory.db (SQLite derived index)
-    ├── chunks       vectors + text (95k+ entries; auto USearch index past 50k)
-    ├── entities/triples  KG (17k+ triples, entity normalized)
+    ├── chunks       vectors + text (auto USearch index past 50k entries)
+    ├── entities/triples  KG (entity normalized, multi-tenant)
     ├── extracts      L1 structured (decision/fact/episodic)
     ├── scenes/persona  L2 scenes / L3 persona
     ├── learnings     lessons library (LRN)
@@ -163,8 +163,8 @@ Non-OpenClaw users: wake-up (session wake) + MCP retrieval = equivalent auto inj
 ## Testing
 
 ```bash
-.venv/bin/python -m pytest tests/ -q          # 42 unit/integration tests
-.venv/bin/eidetic doctor                       # 22-item integrity audit
+.venv/bin/python -m pytest tests/ -q          # 57 unit/integration tests
+.venv/bin/eidetic doctor                       # 23-item integrity audit
 ```
 
 ---
@@ -206,7 +206,7 @@ A: Eidetic is the official name of memory-server. It fuses all capabilities of t
 
 ## Roadmap
 
-- [x] Data migration (38k + 48k chunks, KG 17,933, LRN 81)
+- [x] Data migration (chunks + KG + LRN import verified)
 - [x] Full feature set (retrieval/KG/wandering/wake-up/export/backup/maintenance)
 - [x] Plan-B injection architecture / USearch auto-indexing / retrieval quality benchmarks
 - [x] Linux container smoke test

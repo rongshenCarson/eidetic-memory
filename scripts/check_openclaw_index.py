@@ -21,7 +21,7 @@ import json
 
 AGENTS_DIR = os.path.expanduser("~/.openclaw/agents")
 STALE_HOURS = 6   # index file not updated for >6h is considered stale
-STATE_FILE = os.path.expanduser("~/.mempalace/.prune_state.json")
+STATE_FILE = os.path.expanduser("~/.openclaw/state/prune_state.json")
 
 
 def _index_files():

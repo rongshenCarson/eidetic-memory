@@ -15,7 +15,7 @@ def seed(clean_db):
     for i, txt in enumerate([
         "用户：不对，这个方案完全搞错了，重来",
         "用户：这个总结做得很好，方向完全正确",
-        "林下有品牌定稿了双轨推广方案",
+        "brandx定稿了双轨推广方案",
     ]):
         conn.execute(
             "INSERT INTO chunks(source_id, namespace, path, start_line, end_line, text, "
@@ -24,7 +24,7 @@ def seed(clean_db):
     conn.execute(
         "INSERT INTO extracts(namespace, type, text, short, importance, entities, "
         "tags, timestamp, source_id, created_at) VALUES(?,?,?,?,?,?,?,?,?,?)",
-        ("main", "decision", "双轨推广方案定稿", "双轨方案定稿", 5, '["林下有"]',
+        ("main", "decision", "双轨推广方案定稿", "双轨方案定稿", 5, '["acme"]',
          '[]', "2026-08-09", 1, t))
     conn.commit()
     conn.close()

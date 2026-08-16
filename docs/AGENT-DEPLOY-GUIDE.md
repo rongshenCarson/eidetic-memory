@@ -17,8 +17,8 @@ if [ -d "$HOME/eidetic-memory" ]; then
 else
     # 2. Download (source mode, most portable)
     git clone --depth 1 https://github.com/rongshenCarson/eidetic-memory "$HOME/eidetic-memory" 2>/dev/null \
-      || curl -sL https://github.com/rongshenCarson/eidetic-memory/releases/latest/download/eidetic-memory-0.1.0-source.tar.gz | tar xz -C "$HOME" \
-      && mv "$HOME/eidetic-memory-0.1.0" "$HOME/eidetic-memory" 2>/dev/null || true
+      || curl -sL https://github.com/rongshenCarson/eidetic-memory/releases/latest/download/eidetic-memory-0.1.1-source.tar.gz | tar xz -C "$HOME" \
+      && mv "$HOME/eidetic-memory-0.1.1" "$HOME/eidetic-memory" 2>/dev/null || true
 fi
 cd "$HOME/eidetic-memory"
 

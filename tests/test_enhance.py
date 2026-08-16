@@ -12,8 +12,8 @@ def seed(clean_db):
     conn = db.get_conn()
     t = time.time()
     texts = [
-        "林下有品牌定稿了双轨推广方案，达人筛选聚焦5000-10000粉",
-        "林下有品牌的推广方案采用双轨策略，达人筛选5000-10000粉区间",
+        "brandx定稿了双轨推广方案，influencer focus 5k-10k",
+        "brandx的推广方案采用双轨策略，influencer 5k-10k range",
         "今天天气很好去公园散步了",
     ]
     for i, txt in enumerate(texts):
@@ -35,7 +35,7 @@ def test_semantic_dedup():
 def test_aaak_compress():
     """②b AAAK 压缩：结构化字段 + 幂等"""
     from memory_server.compress import compress_text, compress_chunks
-    c = compress_text("荣燊哥确认 Eidetic 定名，这是重要决策。")
+    c = compress_text("the user确认 Eidetic 定名，这是重要决策。")
     assert c["topic"] and c["key_sentence"]
     assert "decision" in c["flags"] or "milestone" in c["flags"]
     r = compress_chunks(namespace="main")
@@ -69,7 +69,7 @@ def test_l1_noop_decision():
             return {"facts": [{"type": "decision", "content": text, "short": text[:20],
                                "importance": 4, "entities": [], "timestamp": "2026-08-10"}],
                     "episodics": []}
-    t1 = "荣燊哥决定采用双轨推广方案，达人筛选聚焦五千到一万粉区间"
+    t1 = "the user决定采用双轨推广方案，influencer 5k-10k range"
     extract_and_store(t1, "main", MockExt())
     extract_and_store(t1, "main", MockExt())  # 相同 → NOOP
     conn = db.get_conn()
@@ -94,13 +94,13 @@ def test_markdown_export(tmp_path):
 def test_entity_summary():
     """③b 实体摘要：规则兜底落库"""
     from memory_server.kg import kg_add, entity_summary
-    kg_add("林下有", "首款产品", "云茯苓祛湿茶", namespace="main")
+    kg_add("acme", "首款产品", "teaprod", namespace="main")
     class NoneExt:
         name = "none"
     r = entity_summary(NoneExt(), namespace="main", top_n=5)
     assert r["summarized"] >= 1
     conn = db.get_conn()
     row = conn.execute("SELECT summary FROM entities WHERE namespace='main' "
-                       "AND canonical='林下有'").fetchone()
+                       "AND canonical='acme'").fetchone()
     conn.close()
     assert row and row[0] and "首款产品" in row[0]

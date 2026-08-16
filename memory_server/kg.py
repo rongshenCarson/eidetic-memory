@@ -235,7 +235,7 @@ def kg_query(entity, namespace=None, direction="both", as_of=None):
 def kg_invalidate(subject, predicate, object=None, namespace="default", valid_to=None):
     """显式将事实标记为过时（时间线修正通道）。
 
-    对齐旧系统 mempalace_kg_invalidate 语义：
+    与 KG 失效语义对齐：
       事实变化时先失效旧事实，再 kg_add 新事实。
     - 传 object → 只失效 (subject, predicate, object) 这条精确事实
     - 不传 object → 失效 (subject, predicate) 全部有效事实

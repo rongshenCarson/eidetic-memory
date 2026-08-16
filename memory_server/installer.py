@@ -123,7 +123,6 @@ def detect_old_memory():
         os.path.expanduser("~/.openclaw/workspace/memory/dialogue"),
         os.path.expanduser("~/.openclaw/workspace/memory/core"),
         os.path.expanduser("~/.openclaw/workspace/.learnings"),
-        os.path.expanduser("~/.mempalace/palace"),
         os.path.expanduser("~/.openclaw/workspace/memory"),
     ]
     for p in candidates:

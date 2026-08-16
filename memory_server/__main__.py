@@ -76,8 +76,6 @@ def main():
     p_search.add_argument("--task-context", default=None, help="任务上下文关键词（项目名，命中加权）")
     p_search.add_argument("--room", default=None, help="按 room 过滤（品牌推广/技术系统/...）")
     p_search.add_argument("--depth", type=int, default=1, help="KG 多跳深度（1/2）")
-    p_search.add_argument("--backend", default=None, choices=["sqlite", "mempalace"],
-                          help="存储后端（默认 config 或 sqlite）")
 
     # G2（2026-08-11）：fusion 独立子命令（原藏在 search --fusion，不易发现）
     p_fusion = sub.add_parser("fusion", help="融合检索（向量+FTS+KG 多跳+时间衰减+偏置）")
@@ -142,9 +140,6 @@ def main():
     p_bk = sub.add_parser("backup", help="数据库备份/恢复（子命令: create/list/restore）")
     p_bk.add_argument("backup_args", nargs="*", default=[], help="透传给 backup.py 的子命令参数")
 
-    p_bc = sub.add_parser("backend-compare", help="双后端检索比对（sqlite vs mempalace）")
-    p_bc.add_argument("queries", nargs="+")
-    p_bc.add_argument("--ns", default=None)
     p_bc.add_argument("--limit", type=int, default=5)
 
     p_es = sub.add_parser("entity-summary", help="实体摘要（综合状态）")
@@ -249,14 +244,6 @@ def main():
     elif args.cmd == "search":
         db.init_db()
         from .embed import detect_provider, resolve_provider
-        from .backend import get_backend
-        if args.backend == "mempalace":
-            be = get_backend("mempalace")
-            results = be.search(args.query, namespace=args.ns, limit=args.limit)
-            print(f"🔍 「{args.query}」 Top{args.limit} (mempalace 后端):")
-            for r in results:
-                print(f"  [{r['score']:.3f}] {r['text'][:60]}")
-            sys.exit(0)
         provider = detect_provider(prefer="fts-only" if args.fts_only else None)
         if args.fusion:
             from .search import fusion_search
@@ -379,9 +366,6 @@ def main():
     elif args.cmd == "backup":
         from .backup import main as bk_main
         sys.exit(bk_main(args.backup_args))  # 子命令: create/list/restore
-    elif args.cmd == "backend-compare":
-        from .backend import main_compare
-        sys.exit(main_compare(args.queries))
     elif args.cmd == "entity-summary":
         from .kg import main_summary as es_main
         argv = []

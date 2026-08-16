@@ -19,12 +19,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from memory_server import db
 
-# 审计三审 P2-10（2026-08-11）：走廊文件从 ~/.mempalace（已停用旧系统）迁到包内 data/，
+# 走廊文件默认存包内 data/（随 DB_DIR），
 # 解除跨系统耦合；旧路径仅做只读兼容回退。
 # 2026-08-12：默认路径跟随 db.DB_DIR（与日志/备份/索引统一，自定义目录部署不再分裂）
 HALLWAY_FILE = os.environ.get(
     "MEMORY_HALLWAY_FILE",
-    os.path.join(db.DB_DIR, "hallways.json"))  # 默认包内 data/；旧 ~/.mempalace 不再写
+    os.path.join(db.DB_DIR, "hallways.json"))  # 默认包内 data/
 
 # 技术术语/通用词停用（非真实实体，共现走廊会淹没真实关系）
 STOPWORDS = {
@@ -33,9 +33,9 @@ STOPWORDS = {
     "workspace", "memory", "palace", "chunk", "chunks", "jsonl", "md",
     "用户", "日志", "工具", "命令", "文档", "目录", "版本", "状态",
     "brand", "topic", "room", "wing", "closet", "keyword", "verify",
-    "content", "user", "assistant", "日常对话", "episodic", "系统", "林下有",
+    "content", "user", "assistant", "日常对话", "episodic", "系统", "acme",
     "README", "index", "main", "default", "ns", "api", "mcp", "cli",
-    "openclaw", "eidetic", "mempalace", "sqlite", "chroma", "ollama",
+    "openclaw", "eidetic", "sqlite", "chroma", "ollama",
     "bge", "kg", "fts", "json", "html", "py", "sh", "yml", "yaml",
 }
 
