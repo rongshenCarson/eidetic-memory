@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (daily_export / reflect / archive_old / retention / l2_scenes / daily_backup / semantic_dedup)
   whose due point fell inside the sleep window were skipped with no catch-up.
   Fix: periodic due() tick (default 60s, env MEMORY_SCHED_TICK) + elapsed-overflow catch-up
-  in _schedule_next + re-entry guard + resilient re-arm on DB errors (9-audit).
+  in _schedule_next + re-entry guard + resilient re-arm on DB errors.
   Regression tests: tests/test_sleep_recovery.py (tick catch-up / no double-run / backoff
   preserved / env override / DB-error re-arm).
 

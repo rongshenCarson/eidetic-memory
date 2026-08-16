@@ -2,7 +2,7 @@
 """
 memory-server 调度器（P1a）
 ============================
-进程内调度 + 水位线补跑（9号 D5 关键设计）：
+进程内调度 + 水位线补跑（关键设计）：
 - 每个任务持久化 last_successful_run 到 watermarks 表
 - 进程启动后检查「水位线距现在是否超过周期」→ 超过立即补跑
 - 崩溃/休眠唤醒 = 同一个无害场景（补跑）
@@ -17,7 +17,7 @@ from . import db
 
 log = logging.getLogger("memory-server.scheduler")
 
-# 2026-08-13（9号审计建议）：tick 间隔环境变量化——开源用户环境多样（CI/低配 VPS/容器），
+# 2026-08-13：tick 间隔环境变量化——开源用户环境多样（CI/低配 VPS/容器），
 # 给一个旋钮（默认 60s，与修复前一致）而不硬编码。
 TICK_INTERVAL = int(os.environ.get("MEMORY_SCHED_TICK", "60"))
 
@@ -83,7 +83,7 @@ class Task:
             self._timer.daemon = True
             self._timer.start()
         except Exception as e:
-            # 2026-08-13（9号审计建议）：DB 瞬时错误（锁/IO 抖动）不能静默杀死排程链——
+            # 2026-08-13：DB 瞬时错误（锁/IO 抖动）不能静默杀死排程链——
             # 记录日志并重试短间隔，让失效可见且可自愈（tick 兜底之外的双保险）
             log.error(f"任务 {self.name} 排程失败: {e}，5s 后重试")
             self._timer = threading.Timer(5, self.run)

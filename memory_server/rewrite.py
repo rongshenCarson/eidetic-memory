@@ -1,6 +1,6 @@
 """Y1 查询重写（2026-08-11 第二轮审计补全）：LLM 3 变体 + RRF 融合
 
-背景：9号审计 Y1 —— 旧系统有 query 重写多变体能力，Eidetic 只做了同义词补丁。
+背景：旧系统有 query 重写多变体能力，Eidetic 只做了同义词补丁。
 本模块实现完整版：
   - LLM 变体：原查询 + 2 个改写（同义扩展 / 拆词补全），让模糊查询（如"产地"）变成
     可命中的精确变体（"原料产地 云南普洱 景迈山"）
@@ -62,7 +62,7 @@ def _kg_entities(query: str) -> list[str]:
 
 
 def _load_query_stopwords() -> set:
-    """从 config.yaml 读 query_stopwords（私有词属于配置不属于代码——9号终审建议，
+    """从 config.yaml 读 query_stopwords（私有词属于配置不属于代码——终审建议，
     2026-08-12：避免开源代码里再出现业务专属词；config 格式: query_stopwords: ["词1", "词2"]）"""
     extra = set()
     cfg_path = os.path.join(os.path.expanduser("~"), ".memory-server", "config.yaml")

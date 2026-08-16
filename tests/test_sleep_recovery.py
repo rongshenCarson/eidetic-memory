@@ -71,7 +71,7 @@ test_failure_backoff_preserved()
 print("\n全部通过 ✅")
 
 def test_tick_env_override():
-    """9号审计建议1：MEMORY_SCHED_TICK 环境变量可调 tick 间隔"""
+    """建议1：MEMORY_SCHED_TICK 环境变量可调 tick 间隔"""
     import importlib
     old = os.environ.get("MEMORY_SCHED_TICK")
     os.environ["MEMORY_SCHED_TICK"] = "5"
@@ -93,7 +93,7 @@ def test_tick_env_override():
         importlib.reload(sched_mod)
 
 def test_schedule_next_db_error_resilient():
-    """9号审计建议3：_schedule_next DB 异常不应杀死排程链（应重试而非静默死亡）"""
+    """建议3：_schedule_next DB 异常不应杀死排程链（应重试而非静默死亡）"""
     from memory_server import db as _db
     _db.DB_DIR = tempfile.mkdtemp()
     _db.DB_PATH = os.path.join(_db.DB_DIR, "memory.db")

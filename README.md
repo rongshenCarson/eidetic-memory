@@ -15,8 +15,8 @@ Any MCP-compatible agent (OpenClaw / Claude Code / Hermes, etc.) can share the s
 
 **Why Eidetic**:
 - 🗄️ **Single process, single database** (SQLite: vectors + FTS5 + KG + raw layer) — no more memory bloat from multi-process, multi-database setups
-- 🔍 **Three-tier recall**: auto-injected distilled essentials each turn (cheap) → on-demand deep fusion search (vector + BM25 + KG multi-hop) → archived recall for full history — right depth, right cost
 - 🧠 **Five-layer memory architecture (L0–L4)**: L0 raw layer (full conversation history, never dropped) → L1 structured extraction → L2 scenes → L3 persona → L4 knowledge graph — fully automatic; aged content auto-archives (sink) out of the active recall zone but stays deep-retrievable, data is never deleted
+- 🔍 **Three-tier recall**: auto-injected distilled essentials each turn (cheap) → on-demand deep fusion search (vector + BM25 + KG multi-hop) → archived recall for full history — right depth, right cost
 - 🧭 **Memory wandering**: entity co-occurrence hallways + KG links + HTML visualization
 - ⚡ **Auto indexing**: automatically builds a USearch vector index past a size threshold; never degrades
 - 🔒 **Local-first**: data never leaves your machine, no cloud dependency
