@@ -5,9 +5,10 @@ Thanks for your interest in Eidetic! Please read the following guidelines before
 ## Development environment
 
 ```bash
-git clone https://github.com/rongshenCarson/eidetic-memory && cd memory-server
+git clone https://github.com/rongshenCarson/eidetic-memory && cd eidetic-memory
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
+.venv/bin/pip install -e . --no-deps
 .venv/bin/pip install pytest   # test dependency
 ```
 
@@ -15,8 +16,7 @@ python3 -m venv .venv
 
 - Python 3.11+, PEP 8
 - Every new feature must ship with tests (`tests/`)
-- Retrieval-related changes must keep the regression baseline green: `.venv/bin/python test_regression.py`
-- Run the full test suite before committing: `.venv/bin/python -m pytest tests/ -q` (42+ tests)
+- Run the full test suite before committing: `.venv/bin/python -m pytest tests/ -q` (57 tests)
 
 ## Filing an issue
 

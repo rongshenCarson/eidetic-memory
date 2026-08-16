@@ -1,5 +1,11 @@
 # Eidetic — Memory system for AI agents (RAG · Knowledge Graph · MCP Server)
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](pyproject.toml)
+[![CI](https://github.com/rongshenCarson/eidetic-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/rongshenCarson/eidetic-memory/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/rongshenCarson/eidetic-memory)](https://github.com/rongshenCarson/eidetic-memory/releases)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 > *Your second brain, engineered.* — a local-first memory server for LLM agents.
 
 A single-process, single-database memory system for AI agents and LLM applications: **auto conversation ingest → four-layer distillation → fusion retrieval (RAG) → knowledge graph → self-healing**, deployed with one command.
