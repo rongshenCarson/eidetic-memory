@@ -217,6 +217,13 @@ A: Three tiers, see section 5 of `docs/config-reference.md`:
 - Fallback fts-only (0 model memory, automatic)
 Switching tiers of the same model needs no re-embedding; switching to a different model requires a full re-embed (~2h per 100k entries).
 
+**Q: How much memory does the whole system use?**
+A: Measured on a production install (3 processes: serve + scheduler + watchdog, 100k+ chunks):
+- fts-only mode: ~0 model memory, runs comfortably on 2GB devices (CPU-only, no Ollama)
+- Ollama bge-m3 F16: ~1.1GB total RSS (measured)
+- bge-m3 Q8_0 (605MB): ~700MB total RSS
+- No GPU required — the USearch vector index auto-degrades to a numpy fallback on constrained devices, and embeddings fall back gracefully (llama.cpp → Ollama → fts-only)
+
 **Q: Does it support Chinese?**
 A: Yes — FTS5 trigram tokenizer for Chinese + bge-m3 Chinese vectors.
 
