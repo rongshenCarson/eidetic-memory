@@ -1,7 +1,11 @@
-# Eidetic — Your second brain, engineered.
+# Eidetic — Memory system for AI agents (RAG · Knowledge Graph · MCP Server)
 
-A single-process, single-database memory system: **auto conversation ingest → four-layer distillation → fusion retrieval → knowledge graph → self-healing**, deployed with one command.
-Any MCP-compatible agent (OpenClaw / Hermes / Claude Code, etc.) can share the same memory store.
+> *Your second brain, engineered.* — a local-first memory server for LLM agents.
+
+A single-process, single-database memory system for AI agents and LLM applications: **auto conversation ingest → four-layer distillation → fusion retrieval (RAG) → knowledge graph → self-healing**, deployed with one command.
+Any MCP-compatible agent (OpenClaw / Claude Code / Hermes, etc.) can share the same memory store.
+
+**Search keywords**: AI agent memory · RAG (retrieval-augmented generation) · semantic search · vector database · knowledge graph · MCP (Model Context Protocol) server · SQLite FTS5 · embeddings (bge-m3) · long-term memory · local-first · LLM tooling · Python
 
 **Why Eidetic**:
 - 🗄️ **Single process, single database** (SQLite: vectors + FTS5 + KG + raw layer) — no more memory bloat from multi-process, multi-database setups
