@@ -5,10 +5,30 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "eidetic-memory"
 version = "0.1.1"
-description = "Eidetic — a single-process, single-database memory server for AI agents. SQLite-native: vectors + FTS5 + knowledge graph + raw logs. Four-layer distillation, fusion retrieval, auto-healing. One-command deploy, local-first, works with any MCP-compatible agent."
+description = "A single-process, single-database memory system for AI agents: L0 raw layer → L1-L4 distillation → fusion retrieval (RAG) → knowledge graph → self-healing. SQLite-native, local-first, one-command deploy, works with any MCP-compatible agent."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
+keywords = [
+    "ai-memory", "agent-memory", "memory-server", "rag", "semantic-search",
+    "vector-database", "knowledge-graph", "mcp", "sqlite", "fts5",
+    "embeddings", "local-first", "llm", "openclaw",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = [
     "fastmcp>=3.0",
     "questionary>=2.0",
@@ -23,6 +43,12 @@ embed = ["llama-cpp-python>=0.3.34"]
 [project.scripts]
 eidetic = "memory_server.__main__:main"
 memory-server = "memory_server.__main__:main"  # compatibility alias
+
+[project.urls]
+Homepage = "https://github.com/rongshenCarson/eidetic-memory"
+Repository = "https://github.com/rongshenCarson/eidetic-memory"
+Documentation = "https://github.com/rongshenCarson/eidetic-memory#readme"
+Issues = "https://github.com/rongshenCarson/eidetic-memory/issues"
 
 [tool.setuptools.packages.find]
 include = ["memory_server*"]

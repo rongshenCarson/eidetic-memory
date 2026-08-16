@@ -175,6 +175,18 @@ Non-OpenClaw users: wake-up (session wake) + MCP retrieval = equivalent auto inj
 - **Auto indexing**: builds a USearch index past 50k entries, retrieval switches automatically, numpy fallback with no extra dependency
 - **Multi-tenancy**: `l3-persona --per-ns` builds per-namespace personas; KG is global across namespaces
 
+### How retrieval works (fusion recall)
+
+A query goes through five stages (all local, no cloud):
+
+1. **Query rewrite** — the query is expanded into synonym variants (e.g. 产地 → 原料产地) and tokenized into ≥3-char trigrams, so multi-concept queries (产地 价格) don't miss on exact-match constraints
+2. **Three-way recall** — each variant independently retrieves from: ① **vector similarity** (bge-m3 embeddings, USearch index) ② **FTS5 trigram** (Chinese-aware BM25) ③ **KG multi-hop** (entities linked in the knowledge graph, up to `depth` hops)
+3. **RRF fusion** — candidates from all three paths are merged with Reciprocal Rank Fusion (vector 0.8 / FTS 0.1 / KG 0.1 weights), so a hit from any single path surfaces instead of being filtered out
+4. **Time decay + task bias** — older content is mildly decayed (14-day half-life, ±30% max); an optional `task_context` (e.g. the active project name) boosts matching memories
+5. **Room filter + sinking** — results can be filtered by classification room; archived (>90d) content is excluded by default but fully retrievable with `--include-archived`
+
+A cheap **auto-gate** decides whether fusion is worth running per query (KG-entity hit detection), falling back to basic retrieval for non-entity queries to save compute.
+
 ---
 
 ## Testing
