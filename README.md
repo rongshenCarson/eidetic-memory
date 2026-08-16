@@ -8,7 +8,7 @@
 
 > *Your second brain, engineered.* — a local-first memory server for LLM agents.
 
-A single-process, single-database memory system for AI agents and LLM applications: **auto conversation ingest → four-layer distillation → fusion retrieval (RAG) → knowledge graph → self-healing**, deployed with one command.
+A single-process, single-database memory system for AI agents and LLM applications: **auto conversation ingest → five-layer memory (L0 raw → L1–L4 distilled) → fusion retrieval (RAG) → knowledge graph → self-healing**, deployed with one command.
 Any MCP-compatible agent (OpenClaw / Claude Code / Hermes, etc.) can share the same memory store.
 
 **Search keywords**: AI agent memory · RAG (retrieval-augmented generation) · semantic search · vector database · knowledge graph · MCP (Model Context Protocol) server · SQLite FTS5 · embeddings (bge-m3) · long-term memory · local-first · LLM tooling · Python
@@ -16,7 +16,7 @@ Any MCP-compatible agent (OpenClaw / Claude Code / Hermes, etc.) can share the s
 **Why Eidetic**:
 - 🗄️ **Single process, single database** (SQLite: vectors + FTS5 + KG + raw layer) — no more memory bloat from multi-process, multi-database setups
 - 🔍 **Fusion retrieval**: vector + BM25 + KG multi-hop + time decay + task bias, 5-way recall
-- 🧠 **Four-layer distillation**: L1 structured → L2 scenes → L3 persona → KG triples, fully automatic
+- 🧠 **Five-layer memory architecture (L0–L4)**: L0 raw layer (full conversation history, never dropped) → L1 structured extraction → L2 scenes → L3 persona → L4 knowledge graph — fully automatic; aged content auto-archives (sink) out of the active recall zone but stays deep-retrievable, data is never deleted
 - 🧭 **Memory wandering**: entity co-occurrence hallways + KG links + HTML visualization
 - ⚡ **Auto indexing**: automatically builds a USearch vector index past a size threshold; never degrades
 - 🔒 **Local-first**: data never leaves your machine, no cloud dependency
@@ -147,15 +147,17 @@ python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
 
 ```
 Eidetic (single process, single database)
-  raw/ raw layer (single source of truth: conversation JSONL + documents)
+  L0 raw/ raw layer (single source of truth: conversation JSONL + documents, never dropped)
     ↓ ingest (agent_ingest 5min, row-level idempotent)
   memory.db (SQLite derived index)
-    ├── chunks       vectors + text (auto USearch index past 50k entries)
-    ├── entities/triples  KG (entity normalized, multi-tenant)
-    ├── extracts      L1 structured (decision/fact/episodic)
-    ├── scenes/persona  L2 scenes / L3 persona
-    ├── learnings     lessons library (LRN)
-    └── curated       core aggregation
+    ├── L1 extracts    structured distillation (decision/fact/episodic)
+    ├── L2 scenes      scene induction
+    ├── L3 persona     user portrait
+    ├── L4 entities/triples  knowledge graph (entity normalized, multi-tenant)
+    ├── promoted       core memories
+    ├── learnings      lessons library (LRN)
+    └── curated        core aggregation
+    ↓ aging (90 days) → archived (sunk out of active recall, still deep-retrievable)
     ↓ daily export
   memory_export/ (distilled core memories → injected into OpenClaw Active Memory every turn)
 
@@ -167,6 +169,7 @@ Non-OpenClaw users: wake-up (session wake) + MCP retrieval = equivalent auto inj
 
 ### Key design decisions
 - **Raw layer as source**: a corrupted database means rebuilding the index, not losing data (backup/restore via `backup`)
+- **Sinking, not deleting**: content older than 90 days is auto-archived (marked `archived`, moved out of the active recall zone) — it stays fully deep-retrievable via `--include-archived`; the raw layer keeps everything forever
 - **Plan-B injection**: the raw/ layer belongs to Eidetic only; the framework receives only distilled exports (avoids index storms; measured 439k→14k chunks / 16GB→3.2GB)
 - **1:1 frequencies**: fully aligned with the previous system (conversation 5min / distillation 4h / scenes 24h / persona 7d / backup 24h)
 - **Auto indexing**: builds a USearch index past 50k entries, retrieval switches automatically, numpy fallback with no extra dependency
