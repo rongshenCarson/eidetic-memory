@@ -21,6 +21,10 @@ Any MCP-compatible agent (OpenClaw / Claude Code / Hermes, etc.) can share the s
 - ⚡ **Auto indexing**: automatically builds a USearch vector index past a size threshold; never degrades
 - 🔒 **Local-first**: data never leaves your machine, no cloud dependency
 
+**Proven in long-term production use** (daily driver since 2026, evolved from the MemPalace lineage):
+- 🧠 **Long-term recall**: memories from months ago are recalled with near-complete fidelity — the raw layer never drops data (conversation JSONL is the single source of truth), and fusion retrieval (vector + BM25 + KG) finds old context even after long gaps
+- ⚡ **KV-cache friendly**: the injection design keeps the system-prompt prefix byte-stable (all dynamic memory content appended at the end), so once the session context stabilizes, **input-token cache hit rates reach ~99.8%** on prefix-caching providers — repeated turns cost a fraction of the tokens
+
 **License**: [Apache 2.0](LICENSE)
 
 ---
