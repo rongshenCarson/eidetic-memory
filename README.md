@@ -15,7 +15,7 @@ Any MCP-compatible agent (OpenClaw / Claude Code / Hermes, etc.) can share the s
 
 **Why Eidetic**:
 - 🗄️ **Single process, single database** (SQLite: vectors + FTS5 + KG + raw layer) — no more memory bloat from multi-process, multi-database setups
-- 🔍 **Fusion retrieval**: vector + BM25 + KG multi-hop + time decay + task bias, 5-way recall
+- 🔍 **Three-tier recall**: auto-injected distilled essentials each turn (cheap) → on-demand deep fusion search (vector + BM25 + KG multi-hop) → archived recall for full history — right depth, right cost
 - 🧠 **Five-layer memory architecture (L0–L4)**: L0 raw layer (full conversation history, never dropped) → L1 structured extraction → L2 scenes → L3 persona → L4 knowledge graph — fully automatic; aged content auto-archives (sink) out of the active recall zone but stays deep-retrievable, data is never deleted
 - 🧭 **Memory wandering**: entity co-occurrence hallways + KG links + HTML visualization
 - ⚡ **Auto indexing**: automatically builds a USearch vector index past a size threshold; never degrades
@@ -175,17 +175,15 @@ Non-OpenClaw users: wake-up (session wake) + MCP retrieval = equivalent auto inj
 - **Auto indexing**: builds a USearch index past 50k entries, retrieval switches automatically, numpy fallback with no extra dependency
 - **Multi-tenancy**: `l3-persona --per-ns` builds per-namespace personas; KG is global across namespaces
 
-### How retrieval works (fusion recall)
+### Recall: three tiers for the right depth at the right cost
 
-A query goes through five stages (all local, no cloud):
+Eidetic recalls at three depths, so you pay for exactly what you need:
 
-1. **Query rewrite** — the query is expanded into synonym variants (e.g. 产地 → 原料产地) and tokenized into ≥3-char trigrams, so multi-concept queries (产地 价格) don't miss on exact-match constraints
-2. **Three-way recall** — each variant independently retrieves from: ① **vector similarity** (bge-m3 embeddings, USearch index) ② **FTS5 trigram** (Chinese-aware BM25) ③ **KG multi-hop** (entities linked in the knowledge graph, up to `depth` hops)
-3. **RRF fusion** — candidates from all three paths are merged with Reciprocal Rank Fusion (vector 0.8 / FTS 0.1 / KG 0.1 weights), so a hit from any single path surfaces instead of being filtered out
-4. **Time decay + task bias** — older content is mildly decayed (14-day half-life, ±30% max); an optional `task_context` (e.g. the active project name) boosts matching memories
-5. **Room filter + sinking** — results can be filtered by classification room; archived (>90d) content is excluded by default but fully retrievable with `--include-archived`
+1. **Auto-injected (shallow, per-turn)** — at session start, `wake-up` injects L0 identity + L1 distilled essentials (~600–900 tokens, leaving 95% of context for conversation). Distilled core memories are also exported daily and auto-injected into the agent framework each turn — low frequency, small size, high quality.
+2. **Manual deep recall (mid–deep)** — `eidetic search "..." --fusion` runs fusion retrieval across the full index (vector + FTS5 + knowledge graph multi-hop + time decay + task bias). Use it when you need to dig into the middle/deep layers on demand.
+3. **Archived recall (on-demand)** — content older than 90 days is sunk out of the active zone but never deleted; `--include-archived` retrieves it when you need the full history.
 
-A cheap **auto-gate** decides whether fusion is worth running per query (KG-entity hit detection), falling back to basic retrieval for non-entity queries to save compute.
+This is the same recall philosophy as the five-layer memory model: the shallow layers keep every turn cheap and fast, while the deep layers are always one command away.
 
 ---
 
