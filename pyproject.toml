@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eidetic-memory"
+version = "0.1.1"
+description = "Eidetic — a single-process, single-database memory server for AI agents. SQLite-native: vectors + FTS5 + knowledge graph + raw logs. Four-layer distillation, fusion retrieval, auto-healing. One-command deploy, local-first, works with any MCP-compatible agent."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "fastmcp>=3.0",
+    "questionary>=2.0",
+    "numpy>=1.24",  # required on core search/fusion/dedup paths; prevents ImportError on clean install
+    "usearch>=2.26",  # vector index (auto-built past 50k chunks; without it indexing silently degrades to numpy)
+]
+
+[project.optional-dependencies]
+# Embedding backend (optional): falls back to fts-only automatically if it cannot install; core features unaffected
+embed = ["llama-cpp-python>=0.3.34"]
+
+[project.scripts]
+eidetic = "memory_server.__main__:main"
+memory-server = "memory_server.__main__:main"  # compatibility alias
+
+[tool.setuptools.packages.find]
+include = ["memory_server*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

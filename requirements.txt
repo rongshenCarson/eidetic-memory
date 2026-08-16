@@ -1,0 +1,6 @@
+# Eidetic core dependencies
+# The llama-cpp-python embedding backend is optional (auto-falls-back to fts-only if it cannot install); not installed in CI
+fastmcp>=3.0
+questionary>=2.0
+numpy>=1.24
+usearch>=2.26

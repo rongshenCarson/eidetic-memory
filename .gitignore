@@ -1,0 +1,27 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- 虚拟环境 ----
+.venv/
+venv/
+env/
+
+# ---- Eidetic 运行数据（记忆数据，绝不入库）----
+data/
+raw/
+models/
+backups/
+memory_export/
+
+# ---- 系统 ----
+.DS_Store

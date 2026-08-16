@@ -1,0 +1,27 @@
+Eidetic (PyPI package: eidetic-memory)
+Copyright 2026 Liu Haoming
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+---
+
+Attribution Notice
+
+All code in this project is original. Some modules borrow design concepts,
+algorithm ideas, and parameter settings from the following open-source
+projects (ideas and parameters only; no code was copied):
+
+- MemPalace (https://github.com/MemPalace/mempalace) — MIT License
+  Borrowed: wing/room auto-classification approach, AAAK structured
+  compression format, semantic dedup threshold parameter (cosine distance
+  0.15), entity co-occurrence hallway concept.
