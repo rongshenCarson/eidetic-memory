@@ -140,8 +140,6 @@ def main():
     p_bk = sub.add_parser("backup", help="数据库备份/恢复（子命令: create/list/restore）")
     p_bk.add_argument("backup_args", nargs="*", default=[], help="透传给 backup.py 的子命令参数")
 
-    p_bc.add_argument("--limit", type=int, default=5)
-
     p_es = sub.add_parser("entity-summary", help="实体摘要（综合状态）")
     p_es.add_argument("--ns", default=None)
     p_es.add_argument("--top", type=int, default=10)
