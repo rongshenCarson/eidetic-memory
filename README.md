@@ -5,8 +5,11 @@
 [![CI](https://github.com/rongshenCarson/eidetic-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/rongshenCarson/eidetic-memory/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/rongshenCarson/eidetic-memory)](https://github.com/rongshenCarson/eidetic-memory/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%99%A5-pink.svg)](https://afdian.com/a/eidetic)
 
 > *Your second brain, engineered.* — a local-first memory server for LLM agents.
+
+> 💖 **Support the project**: [爱发电](https://afdian.com/a/eidetic) — if Eidetic is useful to you, a coffee keeps it maintained.
 
 A single-process, single-database memory system for AI agents and LLM applications: **auto conversation ingest → five-layer memory (L0 raw → L1–L4 distilled) → fusion retrieval (RAG) → knowledge graph → self-healing**, deployed with one command.
 Any MCP-compatible agent (OpenClaw / Claude Code / Hermes, etc.) can share the same memory store.
